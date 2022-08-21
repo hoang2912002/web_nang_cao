@@ -7,3 +7,4 @@ else{
     include 'model.php';
     include 'dia.php';
 }
+hello
