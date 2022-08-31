@@ -1,5 +1,9 @@
-<form  action="?action=store&controller=lop" method="POST">
+<form action="?action=store" method="POST">
+    Họ
+    <input type="text" name="ho">
+    <br>
     Tên
-    <input type="text" name = "ten">
+    <input type="text" name="ten" id="">
+    <br>
     <button>Thêm</button>
 </form>
