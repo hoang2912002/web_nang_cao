@@ -1,19 +1,27 @@
 <?php
     require 'controller/LopController.php';
-    $action = $_GET['action'] ?? 'index'; 
-    //(new LopController())->index();
+    $action = $_GET['action'] ?? 'index';
     switch($action){
         case 'index':
-        case 'create':
-        case 'store':
-        case 'edit':
-        case 'update':
-        case 'delete':
-        
-            (new LopController())-> $action();
+            (new LopController())->index();
             break;
-        default:
-            echo "Nhập sai action";
+        case 'create':
+            (new LopController())->create();
+            break;
+        case 'store':
+            (new LopController())->store();
+            break;
+        case 'edit':
+            (new LopController())->edit();
+            break;
+        case 'update':
+            (new LopController())->update();
+            break;
+        case 'delete':
+            (new LopController())->delete();
+            break;
+        default: 
+            echo 'Alo sai địa chỉ action r';
             break;
     }
-    //new khởi tạp đối tượng 
+    

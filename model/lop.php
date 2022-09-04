@@ -1,113 +1,58 @@
 <?php
-    require 'model/connect.php';
-    class Lop
-    {
-        
-        private int $id;
-        private string $ho;
-        private string $ten;
-
-        public function get_id(){
-            return  $this->id;
-        }
-
-        public function show_id(){
-            return '#'. $this->id;
-        }
-        public function set_id($var){
-            $this->id = $var;
-        }
-
-        public function get_ho(){
-            return $this->ho;
-        }
-        public function set_ho($var){
-            $this->ho = $var;
-        }
-
-        public function get_ten(){
-            return $this->ten;
-        }
-        public function set_ten($var){
-            $this->ten = $var;
-        }
-
-        
-        public function get_ho_ten(){
-            return $this->ho. '-' . $this->ten;
-        }
+    require 'model/LopObject.php';
+    require 'model/Connect.php';
+    class Lop{
 
         public function all()
         {
             
-            $sql = "select * from lop";
+            $sql = "select  * from lop";
             $result = (new Connect())->select($sql);
-            
             $arr = [];
-            foreach($result as $row){
-                $object = new self();
-                $object->set_id($row['id']);
-                $object->set_ho($row['ho']);
-                $object->set_ten($row['ten']);
+            foreach ($result as $row){
+                $object = new LopObject($row);
                 $arr[] = $object;
             }
             return $arr;
         }
 
-        public function create($ho,$ten)
+        public function create($params)
         {
-            $object = new self();
-            $object->set_ho($ho);
-            $object->set_ten($ten);
-
+            $object = new LopObject($params);
             $sql = "insert into lop(ho,ten)
-                    values ('{$object->ho}','{$object->ten}')";
+                    values ('" . $object->get_ho() ."','". $object->get_ten() . "')";
             
-            (new Connect())->excute($sql);
+           (new Connect())->execute($sql);
+
         }
 
-        public function find($id)
+        public function find($id) : object
         {
-            $sql = "select * from lop
-            where id = '$id'";
+            
+            $sql = "select * from lop 
+                    where id = '$id'";
             $result = (new Connect())->select($sql);
-            $row = mysqli_fetch_array($result);
-            $arr = [];
-            
-                $object = new self();
-                $object->set_id($row['id']);
-                $object->set_ho($row['ho']);
-                $object->set_ten($row['ten']);
-
-            return $object;
+            $each = mysqli_fetch_array($result);
+            return new LopObject($each);
         }
 
-        public function update($id,$ho,$ten)
+        public function update(array $params)
         {
-            $object = new self();
-            $object->set_id($id);
-            $object->set_ho($ho);
-            $object->set_ten($ten);
-
-
-            $sql = "update lop
-                    set ho = '$object->ho',
-                        ten = '$object->ten'
-                    where 
-                        id = '$object->id'";
-            
-            (new Connect())->excute($sql);
+            $object = new LopObject($params);
+            $sql= "update lop set 
+                    ho = '". $object->get_ho()."',
+                    ten = '". $object->get_ten()."'
+                    where
+                    id = '". $object->get_id()."'
+                    ";
+            (new Connect())->execute($sql);
         }
 
-        public function destroy($id)
+        public function delete($id)
         {
             
-
-            $sql = "delete from  lop
-                    where 
-                        id = '$id'";
-            
-            (new Connect())->excute($sql);
+            $sql= "delete from lop 
+                    where id = '$id'";
+            (new Connect())->execute($sql);
         }
-
     }
