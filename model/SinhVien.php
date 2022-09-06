@@ -1,16 +1,16 @@
 <?php
-    require 'model/LopObject.php';
+    require 'model/SinhVienObject.php';
     require_once 'model/Connect.php';
-    class Lop{
-
+    class SinhVien{
+        private string $table = 'sinh_vien';
         public function all()
         {
-            
-            $sql = "select  * from lop";
+            $sql = "select  t.*,lop.ten as ten_lop from $this->table as t
+                    join lop on lop.id = t.id_lop";
             $result = (new Connect())->select($sql);
             $arr = [];
             foreach ($result as $row){
-                $object = new LopObject($row);
+                $object = new SinhVienObject($row);
                 $arr[] = $object;
             }
             return $arr;
@@ -18,29 +18,28 @@
 
         public function create($params)
         {
-            $object = new LopObject($params);
-            $sql = "insert into lop(ho,ten)
-                    values ('" . $object->get_ho() ."','". $object->get_ten() . "')";
+            $object = new SinhVienObject($params);
             
+            $sql = "insert into $this->table (ten,id_lop)
+                    values ('" . $object->get_ten() ."','". $object->get_id_lop() . "')";
            (new Connect())->execute($sql);
 
         }
 
         public function find($id) : object
         {
-            
-            $sql = "select * from lop 
+            $sql = "select * from $this->table 
                     where id = '$id'";
             $result = (new Connect())->select($sql);
             $each = mysqli_fetch_array($result);
-            return new LopObject($each);
+            return new SinhVienObject($each);
         }
 
         public function update(array $params)
         {
-            $object = new LopObject($params);
-            $sql= "update lop set 
-                    ho = '". $object->get_ho()."',
+            $object = new SinhVienObject($params);
+            $sql= "update $this->table set 
+                    id_lop = '". $object->get_id_lop()."',
                     ten = '". $object->get_ten()."'
                     where
                     id = '". $object->get_id()."'
@@ -50,8 +49,7 @@
 
         public function delete($id)
         {
-            
-            $sql= "delete from lop 
+            $sql= "delete from $this->table 
                     where id = '$id'";
             (new Connect())->execute($sql);
         }

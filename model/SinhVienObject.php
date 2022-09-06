@@ -1,16 +1,18 @@
 <?php
     //LopObject là đối tượng để biến nó thành model
-    class LopObject{
+    class SinhVienObject{
         private $id;
-        private $ho;
         private $ten;
+        private $id_lop;
+        private $ten_lop;
 
         public function __construct($row)
         {
             //contruct là khởi tạo
             $this->id =$row['id'] ?? '';
-            $this->ho =$row['ho'] ;
             $this->ten =$row['ten'] ;
+            $this->id_lop =$row['id_lop'] ;
+            $this->ten_lop =$row['ten_lop'] ?? '';
         }
 
         public function get_id()
@@ -21,14 +23,7 @@
         {
             $this->id = $var;   
         }
-        public function get_ho()
-        {
-            return $this->ho;
-        }
-        public function set_ho($var)
-        {
-             $this->ho= $var;
-        }
+       
         public function get_ten()
         {
             return $this->ten;
@@ -38,8 +33,19 @@
             $this->ten = $var;
         }
         
-        public function get_ho_ten()
+       
+        public function get_id_lop()
         {
-            return $this->ho . '.' . $this->ten;
+            return $this->id_lop;
         }
+        public function set_id_lop($var)
+        {
+            $this->id_lop = $var;
+        }
+        
+        public function get_ten_lop()
+        {
+            return $this->ten_lop;
+        }
+
     }
